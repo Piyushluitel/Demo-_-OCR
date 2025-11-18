@@ -171,8 +171,6 @@
 
 
 
-
-
 import streamlit as st
 import requests
 from PIL import Image
@@ -218,8 +216,36 @@ def perform_ocr_on_image(image):
         
         return result.data
 
+# Basic Authentication
+def authenticate():
+    """Prompts for username and password to authenticate."""
+    st.title("Login")
+
+    # Username and password for basic authentication
+    username = st.text_input("Username")
+    password = st.text_input("Password", type="password")
+
+    # Check if login button is clicked
+    if st.button("Login"):
+        if username == "admin" and password == "f14c9fff37033c2fd309682ed603f8178a3e30e3a5fb16ea1bc871e6202db":
+            # Set session state to logged in
+            st.session_state.logged_in = True
+            return True
+        else:
+            st.error("Incorrect username or password. Please try again.")
+            return False
+    return False
+
 # Main Streamlit UI
 def main():
+    # Check if the user is logged in, if not, show the login form
+    if "logged_in" not in st.session_state or not st.session_state.logged_in:
+        # Display the login form
+        if authenticate():
+            st.session_state.logged_in = True
+            st.stop()  # Stop execution to prevent the rest of the app from running
+        return  # If not logged in, return early
+
     # Sidebar for information
     st.sidebar.header("About This App")
     st.sidebar.write("""
@@ -259,6 +285,11 @@ def main():
 
                 except Exception as e:
                     st.error(f"Error performing OCR: {str(e)}")
+
+    # Logout button to allow users to log out and return to the login page
+    if st.button("Logout"):
+        st.session_state.logged_in = False
+        st.stop()  # Stop execution to prevent the rest of the app from running
 
 # Run the Streamlit app
 if __name__ == "__main__":
