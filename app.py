@@ -93,8 +93,25 @@ def fetch_image(selected_file):
 
 # Main Function to Build UI
 def main():
-    st.title("BOL OCR Dashboard")
+    # Sidebar for Information
+    st.sidebar.header("About This App")
+    st.sidebar.write("""
+    This app allows you to extract important data from Bill of Lading (BOL) images. 
+    By uploading an image of a BOL, the app processes the image using OCR and extracts crucial details like:
     
+    - Truck Number
+    - Carrier Name
+    - Product Data
+    - Transaction times and dates
+
+    This feature reduces human effort and automates the extraction of key information, which can be used to autofill forms, update records, and much more!
+    
+    **How it works**: Select an image file from the dropdown, and click "Extract Data from BOL Image" to view the extracted results.
+    """)
+
+    # Main Dashboard UI
+    st.title("BOL OCR Dashboard")
+
     # File Selection
     selected_file = st.selectbox("Select a BOL image file:", files)
 
@@ -104,7 +121,7 @@ def main():
     # Display the image
     img = fetch_image(selected_file)
     if img:
-        st.image(img, caption=selected_file, use_column_width=True)
+        st.image(img, caption=selected_file, use_container_width=True)
 
     # Button to trigger OCR extraction
     if st.button('Extract Data from BOL Image'):
