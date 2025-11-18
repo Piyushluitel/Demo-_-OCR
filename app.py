@@ -235,7 +235,7 @@ def main():
     """)
 
     # Main title
-    st.title("BOL OCR Dashboard")
+    st.title("Structured Data Extraction using OCR on Bill of Lading Image (BOL)")
 
     # File Upload Section
     uploaded_file = st.file_uploader("Upload a BOL Image", type=["jpg", "jpeg", "png"])
