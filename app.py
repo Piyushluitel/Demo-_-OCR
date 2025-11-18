@@ -169,8 +169,6 @@
 #     main()
 
 
-
-
 import streamlit as st
 import requests
 from PIL import Image
