@@ -410,7 +410,6 @@ def main():
     elif file_option == "Select from Dropdown":
         # Example list of filenames (can be dynamically loaded)
         filenames = [
-            "061D7F1B-E401-445A-9D20-BF9B6F231A55.jpg",
             "061DF0F8-F4E8-44B1-81AA-1AC209FBBF4A.jpg",
             "061E6AAB-E3F8-4F4F-A31E-89C9459EF813.jpg",
             "061F7C9D-FA3C-4A20-B102-6576A7F766A0.jpg",
