@@ -12,8 +12,8 @@ from botocore.exceptions import ClientError
 aws_access_key_id = st.secrets["aws"]["AWS_ACCESS_KEY_ID"]
 aws_secret_access_key = st.secrets["aws"]["AWS_SECRET_ACCESS_KEY"]
 LLAMA_CLOUD_API_KEY = st.secrets["aws"]["LLAMA_CLOUD_API_KEY"]  # Replace with your LlamaExtract API Key
-authentication_pw=st.secrets["aws"]["authentication_pw"]
-api_pw=st.secrets["aws"]["api_pw"]
+authentication_pw = st.secrets["aws"]["authentication_pw"]
+api_pw = st.secrets["aws"]["api_pw"]
 
 # Initialize LlamaExtract client
 extractor = LlamaExtract(api_key=LLAMA_CLOUD_API_KEY)
@@ -102,7 +102,7 @@ BUCKET_NAME = "fp-prod-s3"
 def download_from_s3(file_key):
     """Download the selected image from S3 and return the local file path."""
     try:
-        s3 = boto3.client("s3", region_name=AWS_REGION,aws_access_key_id=aws_access_key_id,aws_secret_access_key=aws_secret_access_key)
+        s3 = boto3.client("s3", region_name=AWS_REGION, aws_access_key_id=aws_access_key_id, aws_secret_access_key=aws_secret_access_key)
 
         temp_file = tempfile.NamedTemporaryFile(delete=False, suffix=".jpg")
         temp_path = temp_file.name
@@ -228,42 +228,42 @@ def main():
         selected_filename = st.selectbox("Select a BOL Image", filenames)
 
         if selected_filename:
-        # Step 1: Download file from S3
-        with st.spinner("Downloading image from S3..."):
-            downloaded_path = download_from_s3(selected_filename)
+            # Step 1: Download file from S3
+            with st.spinner("Downloading image from S3..."):
+                downloaded_path = download_from_s3(selected_filename)
 
-        if downloaded_path:
-            # Step 2: Display downloaded image
-            image = Image.open(downloaded_path)
-            st.image(image, caption="Downloaded BOL Image", use_container_width=True)
+            if downloaded_path:
+                # Step 2: Display downloaded image
+                image = Image.open(downloaded_path)
+                st.image(image, caption="Downloaded BOL Image", use_container_width=True)
 
-            # Step 3: Get job_id by hitting the process file URL
-            with st.spinner('Processing the BOL image...'):
-                job_id = get_job_id_from_filename(selected_filename)
+                # Step 3: Get job_id by hitting the process file URL
+                with st.spinner('Processing the BOL image...'):
+                    job_id = get_job_id_from_filename(selected_filename)
 
-            if job_id:
-                st.write(f"Job ID: {job_id}")
+                if job_id:
+                    st.write(f"Job ID: {job_id}")
 
-                # Step 4: Get the result by passing job_id to the result URL
-                result = None
-                with st.spinner("Processing the OCR..."):
-                    # Create a progress bar
-                    progress_bar = st.progress(0)
-                    # Simulate processing by updating the progress bar
-                    for percent_complete in range(0, 101, 20):
-                        progress_bar.progress(percent_complete)
-                        time.sleep(1)  # Simulate time delay
-                    # Get the OCR result after progress bar is filled
-                    result = get_ocr_result(job_id)
+                    # Step 4: Get the result by passing job_id to the result URL
+                    result = None
+                    with st.spinner("Processing the OCR..."):
+                        # Create a progress bar
+                        progress_bar = st.progress(0)
+                        # Simulate processing by updating the progress bar
+                        for percent_complete in range(0, 101, 20):
+                            progress_bar.progress(percent_complete)
+                            time.sleep(1)  # Simulate time delay
+                        # Get the OCR result after progress bar is filled
+                        result = get_ocr_result(job_id)
 
-                if result:
-                    # Step 5: Display the result
-                    if result.get("status") == "completed":
-                        extracted_data = result.get("result", {}).get("ExtractedData", {})
-                        st.write("OCR Extraction Results:")
-                        st.json(extracted_data)
-                    else:
-                        st.error("OCR result is not completed yet.")
+                    if result:
+                        # Step 5: Display the result
+                        if result.get("status") == "completed":
+                            extracted_data = result.get("result", {}).get("ExtractedData", {})
+                            st.write("OCR Extraction Results:")
+                            st.json(extracted_data)
+                        else:
+                            st.error("OCR result is not completed yet.")
             else:
                 st.error("Failed to fetch job ID.")
 
