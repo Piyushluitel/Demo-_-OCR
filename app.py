@@ -1,5 +1,6 @@
 import streamlit as st
 import os
+import time
 from PIL import Image
 import tempfile
 from llama_cloud_services import LlamaExtract
