@@ -9,6 +9,11 @@ import boto3
 from botocore.exceptions import ClientError
 
 # LlamaExtract API key (ensure this is set correctly)
+aws_access_key_id = st.secrets["aws"]["AWS_ACCESS_KEY_ID"]
+aws_secret_access_key = st.secrets["aws"]["AWS_SECRET_ACCESS_KEY"]
+LLAMA_CLOUD_API_KEY = st.secrets["aws"]["LLAMA_CLOUD_API_KEY"]  # Replace with your LlamaExtract API Key
+authentication_pw=st.secrets["aws"]["authentication_pw"]
+api_pw=st.secrets["aws"]["api_pw"]
 
 # Initialize LlamaExtract client
 extractor = LlamaExtract(api_key=LLAMA_CLOUD_API_KEY)
@@ -18,11 +23,6 @@ existing_agent = None
 
 # Access the credentials stored in Streamlit's secrets
 
-aws_access_key_id = st.secrets["aws"]["AWS_ACCESS_KEY_ID"]
-aws_secret_access_key = st.secrets["aws"]["AWS_SECRET_ACCESS_KEY"]
-LLAMA_CLOUD_API_KEY = st.secrets["aws"]["LLAMA_CLOUD_API_KEY"]  # Replace with your LlamaExtract API Key
-authentication_pw=st.secrets["aws"]["authentication_pw"]
-api_pw=st.secrets["aws"]["api_pw"]
 # aws_region = st.secrets["aws"]["AWS_REGION"]
 
 # Function to get or create the existing LlamaExtract agent
